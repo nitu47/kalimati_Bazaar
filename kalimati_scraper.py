@@ -10,7 +10,7 @@ def fetch_price_page():
     }
     response = requests.get(URL, headers=headers)
     if response.status_code != 200:
-        print(f"❌ Failed to fetch page, status code: {response.status_code}")
+        print(f" Failed to fetch page, status code: {response.status_code}")
         return None
     return response.text
 
@@ -21,14 +21,14 @@ def parse_prices(html):
     if not table:
         table = soup.find("table")
     if not table:
-        print("❌ Table not found")
+        print(" Table not found")
         return []
 
     data = []
     today = datetime.date.today().isoformat()
     tbody = table.find("tbody")
     if not tbody:
-        print("❌ No <tbody> in table")
+        print(" No <tbody> in table")
         return []
 
     for row in tbody.find_all("tr"):
@@ -61,11 +61,11 @@ def main():
     prices = parse_prices(html)
     if prices:
         save_to_csv(prices)
-        print(f"✅ Saved {len(prices)} items for {datetime.date.today()}")
+        print(f" Saved {len(prices)} items for {datetime.date.today()}")
         for rec in prices[:10]:
             print(f"{rec['item']} ({rec['unit']}): min {rec['min_price']} / max {rec['max_price']} / avg {rec['avg_price']}")
     else:
-        print("❌ No price records found.")
+        print(" No price records found.")
 
 if __name__ == "__main__":
     main()
